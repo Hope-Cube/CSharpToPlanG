@@ -1,0 +1,7 @@
+PROGRAM oszto
+VALTOZOK:
+  a, i : egesz
+  be: a
+be: i
+ki: a + i
+PROGRAM_VEGE
