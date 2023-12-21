@@ -20,7 +20,8 @@
         <TextBox x:Name="inCode" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AcceptsReturn="True"/>
         <TextBlock x:Name="outCode" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-            <Button x:Name="inport" Content="Inport" Margin="0 0 10 0"/>
+            <Button x:Name="inport" Content="Inport" Margin="0 0 10 0" Click="inport_Click"/>
+            <Button x:Name="convert" Content="Convert" Click="convert_Click" Margin="0 0 10 0"/>
             <Button x:Name="swap" Content="Swap" Click="swap_Click"/>
             <Button x:Name="export" Content="Export" Margin="10 0 0 0"/>
         </StackPanel>
