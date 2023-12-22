@@ -81,9 +81,126 @@ namespace CSharpToPlanG
         {
             outCode.Text = ConvertCode(inCode.Text);
         }
+        string pc = @"
+            PROGRAM oszto
+                VALTOZOK:
+                a, i : egesz
+                be: a
+                be: i
+                ki: a + i
+            PROGRAM_VEGE
+            ";
         private string ConvertCode(string code)
         {
+            List<string> plangLines = code.Split('\n').ToList();
+            List<string> usings = Usings(code);
+            List<string> vars = Vars(plangLines);
+            List<string> cSharpLines = new List<string>();
 
+            string convCode = string.Empty;
+            return convCode;
+        }
+        private List<string> Vars(List<string> planglines)
+        {
+            List<string> vars = new List<string>();
+            foreach (string line in planglines)
+            {
+                string l = line.ToLower();
+                if (l.Contains("logikai"))
+                {
+                    string[] logikai = l.Split(':');
+                    vars.Add($"bool {logikai[0]}");
+                }
+                else if (l.Contains("egesz"))
+                {
+                    if (!l.Contains("["))
+                    {
+                        string[] egesztomb = l.Split(':');
+                        string[] tomb0 = egesztomb[0].Split(new string[] { ",", "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < tomb0.Length - 2; i += 2)
+                        {
+                            vars.Add($"int[] {tomb0[i]} = new int[{tomb0[i + 1]}]");
+                        }
+                    }
+                    else
+                    {
+                        string[] egesz = l.Split(':');
+                        vars.Add($"int {egesz[0]}");
+                    }
+                }
+                else if (l.Contains("valos"))
+                {
+                    if (!l.Contains("["))
+                    {
+                        string[] egesztomb = l.Split(':');
+                        string[] tomb0 = egesztomb[0].Split(new string[] { ",", "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < tomb0.Length - 2; i += 2)
+                        {
+                            vars.Add($"float[] {tomb0[i]} = new float[{tomb0[i + 1]}]");
+                        }
+                    }
+                    else
+                    {
+                        string[] egesz = l.Split(':');
+                        vars.Add($"float {egesz[0]}");
+                    }
+                }
+                else if (l.Contains("karakter"))
+                {
+                    if (!l.Contains("["))
+                    {
+                        string[] egesztomb = l.Split(':');
+                        string[] tomb0 = egesztomb[0].Split(new string[] { ",", "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < tomb0.Length - 2; i += 2)
+                        {
+                            vars.Add($"char[] {tomb0[i]} = new char[{tomb0[i + 1]}]");
+                        }
+                    }
+                    else
+                    {
+                        string[] egesz = l.Split(':');
+                        vars.Add($"char {egesz[0]}");
+                    }
+                }
+                else if (l.Contains("szoveg"))
+                {
+                    if (!l.Contains("["))
+                    {
+                        string[] egesztomb = l.Split(':');
+                        string[] tomb0 = egesztomb[0].Split(new string[] { ",", "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < tomb0.Length - 2; i += 2)
+                        {
+                            vars.Add($"string[] {tomb0[i]} = new string[{tomb0[i + 1]}]");
+                        }
+                    }
+                    else
+                    {
+                        string[] egesz = l.Split(':');
+                        vars.Add($"string {egesz[0]}");
+                    }
+                }
+                else if (l.Contains("befajl"))
+                {
+
+                    string[] befajl = l.Split(':');
+                    vars.Add($"StreamReader {befajl[0]} = null");
+                }
+                else if (l.Contains("kifajl"))
+                {
+                    string[] kifajl = l.Split(':');
+                    vars.Add($"StreamWriter {kifajl[0]} = null");
+                }
+            }
+            return vars;
+        }
+        private List<string> Usings(string code) 
+        {
+            List<string> usings = new List<string>() { "System" };
+            if (new[] { "befajl", "kifajl" }.Any(code.Contains))
+            {
+                usings.Add("System.IO");
+            }
+            return usings;
         }
     }
 }
