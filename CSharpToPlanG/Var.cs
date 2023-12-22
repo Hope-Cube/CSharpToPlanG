@@ -12,7 +12,7 @@
         }
         private readonly Variable _variable;
         private readonly string _name;
-        private readonly string _value;
+        private string _value;
         public Var(Variable variable, string name, string value)
         {
             _variable = variable;
@@ -21,6 +21,6 @@
         }
         internal Variable Variable1 => _variable;
         public string Name => _name;
-        public string Value => _value;
+        public string Value { get => _value; set => _value = value; }
     }
 }

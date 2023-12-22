@@ -114,8 +114,21 @@ namespace CSharpToPlanG
                 string l = line.ToLower();
                 if (l.Contains("logikai"))
                 {
-                    string[] logikai = l.Split(':');
-                    vars.Add($"bool {logikai[0]}");
+                    if (!l.Contains("["))
+                    {
+                        string[] egesztomb = l.Split(':');
+                        string[] tomb0 = egesztomb[0].Split(new string[] { ",", "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < tomb0.Length - 2; i += 2)
+                        {
+                            vars.Add($"bool[] {tomb0[i]} = new bool[{tomb0[i + 1]}]");
+                        }
+                    }
+                    else
+                    {
+                        string[] logikai = l.Split(':');
+                        vars.Add($"bool {logikai[0]}");
+                        plangprogramvars.Add(new Var(Var.Variable.Bool, logikai[0]))
+                    }
                 }
                 else if (l.Contains("egesz"))
                 {
