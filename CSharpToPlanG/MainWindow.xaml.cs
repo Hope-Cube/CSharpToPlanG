@@ -23,6 +23,7 @@ namespace CSharpToPlanG
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<Var> plangprogramvars = new List<Var>();
         public MainWindow()
         {
             InitializeComponent();
@@ -84,10 +85,15 @@ namespace CSharpToPlanG
         string pc = @"
             PROGRAM oszto
                 VALTOZOK:
+                i: EGÉSZ
                 a, i : egesz
                 be: a
                 be: i
                 ki: a + i
+                CIKLUS AMÍG i < 5
+                KI: i
+                i := i + 1
+                CIKLUS_VÉGE
             PROGRAM_VEGE
             ";
         private string ConvertCode(string code)
