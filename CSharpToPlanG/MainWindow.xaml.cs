@@ -23,7 +23,6 @@ namespace CSharpToPlanG
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Var> plangprogramvars = new List<Var>();
         public MainWindow()
         {
             InitializeComponent();
@@ -127,7 +126,6 @@ namespace CSharpToPlanG
                     {
                         string[] logikai = l.Split(':');
                         vars.Add($"bool {logikai[0]}");
-                        plangprogramvars.Add(new Var(Var.Variable.Bool, logikai[0]))
                     }
                 }
                 else if (l.Contains("egesz"))
