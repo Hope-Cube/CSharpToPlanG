@@ -34,12 +34,13 @@ namespace CSharpToPlanG
 
         private void inport_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                // Set the initial directory to the current working directory
+                InitialDirectory = Environment.CurrentDirectory,
 
-            // Set the initial directory to the current working directory
-            openFileDialog.InitialDirectory = Environment.CurrentDirectory;
-
-            openFileDialog.Filter = "Text Files (*.txt)|*.txt|C# Files (*.cs)|*.cs|PLANG Files (*.plang)|*.plang|All Files (*.*)|*.*";
+                Filter = "Text Files (*.txt)|*.txt|C# Files (*.cs)|*.cs|PLANG Files (*.plang)|*.plang|All Files (*.*)|*.*"
+            };
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -99,9 +100,18 @@ namespace CSharpToPlanG
         {
             List<string> plangLines = code.Split('\n').ToList();
             List<string> usings = Usings(code);
+            usings.Reverse();
             List<string> vars = Vars(plangLines);
-            List<string> cSharpLines = new List<string>();
-
+            vars.Reverse();
+            List<string> cSharpLines = new List<string>() { $"namespace {plangLines[0].Split(' ')[1]} " + "{\n", "internal class Program {\n", "}\n", "}" };
+            foreach(string line in vars)
+            {
+                cSharpLines.Insert(2, line + ";\n");
+            }
+            foreach(string line in usings)
+            {
+                cSharpLines.Insert(0, line + ";\n");
+            }
             string convCode = string.Empty;
             return convCode;
         }
